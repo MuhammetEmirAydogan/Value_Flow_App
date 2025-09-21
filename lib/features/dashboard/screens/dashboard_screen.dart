@@ -1,6 +1,7 @@
 // lib/features/dashboard/screens/dashboard_screen.dart
 import 'package:flutter/material.dart';
-import 'package:value_flow/features/home/screens/home_screen.dart'; // Birazdan oluşturacağız
+import 'package:value_flow/features/home/screens/home_screen.dart';
+import 'package:value_flow/features/favorites/screens/favorites_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -10,19 +11,16 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Hangi sekmenin seçili olduğunu takip eden değişken
   int _selectedIndex = 0;
 
-  // Alt menüdeki sekmelere karşılık gelen ekranların listesi
   static final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(), // Ana Sayfa
-    const Text('Favorites Screen', style: TextStyle(color: Colors.white)), // Favoriler (Şimdilik boş)
-    const Text('Converter Screen', style: TextStyle(color: Colors.white)), // Dönüştürücü (Şimdilik boş)
-    const Text('Alerts Screen', style: TextStyle(color: Colors.white)),    // Alarmlar (Şimdilik boş)
-    const Text('Settings Screen', style: TextStyle(color: Colors.white)),  // Ayarlar (Şimdilik boş)
+    const HomeScreen(),
+    const FavoritesScreen(), // ESKİ Text() YERİNE ARTIK BU EKRAN GÖSTERİLİYOR
+    const Text('Converter Screen', style: TextStyle(color: Colors.white)),
+    const Text('Alerts Screen', style: TextStyle(color: Colors.white)),
+    const Text('Settings Screen', style: TextStyle(color: Colors.white)),
   ];
 
-  // Bir sekmeye tıklandığında bu fonksiyon çalışır
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -45,12 +43,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        // Tema Ayarları
-        type: BottomNavigationBarType.fixed, // 4'ten fazla item için bu gerekli
-        backgroundColor: const Color(0xFF2D3748), // Menü arkaplanı
-        selectedItemColor: Theme.of(context).primaryColor, // Seçili ikon rengi
-        unselectedItemColor: Colors.grey[400], // Seçili olmayan ikon rengi
-        showUnselectedLabels: false, // Seçili olmayan etiketleri gizle
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color(0xFF2D3748),
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.grey[400],
+        showUnselectedLabels: false,
         showSelectedLabels: false,
       ),
     );
