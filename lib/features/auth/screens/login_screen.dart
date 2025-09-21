@@ -1,5 +1,7 @@
 // lib/features/auth/screens/login_screen.dart
 import 'package:flutter/material.dart';
+// Yeni eklediğimiz ekranı buraya import ediyoruz:
+import 'package:value_flow/features/auth/screens/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -17,24 +19,16 @@ class LoginScreen extends StatelessWidget {
               const Text(
                 'ValueFlow',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 48.0),
               const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                ),
+                decoration: InputDecoration(hintText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16.0),
               const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                ),
+                decoration: InputDecoration(hintText: 'Password'),
                 obscureText: true,
               ),
               const SizedBox(height: 24.0),
@@ -51,7 +45,14 @@ class LoginScreen extends StatelessWidget {
                   const Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      // TODO: Kayıt ol ekranına yönlendirme
+                      // GÜNCELLENEN KISIM BURASI
+                      // Navigator.push ile yeni bir ekran açıyoruz
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterScreen(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Sign Up',
