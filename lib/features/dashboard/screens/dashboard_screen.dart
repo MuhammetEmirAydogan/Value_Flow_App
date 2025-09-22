@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:value_flow/features/home/screens/home_screen.dart';
 import 'package:value_flow/features/favorites/screens/favorites_screen.dart';
+import 'package:value_flow/features/converter/screens/converter_screen.dart'; // YENİ IMPORT
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,8 +16,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    const FavoritesScreen(), // ESKİ Text() YERİNE ARTIK BU EKRAN GÖSTERİLİYOR
-    const Text('Converter Screen', style: TextStyle(color: Colors.white)),
+    const FavoritesScreen(),
+    const ConverterScreen(), // ESKİ Text() YERİNE ARTIK BU EKRAN GÖSTERİLİYOR
     const Text('Alerts Screen', style: TextStyle(color: Colors.white)),
     const Text('Settings Screen', style: TextStyle(color: Colors.white)),
   ];
