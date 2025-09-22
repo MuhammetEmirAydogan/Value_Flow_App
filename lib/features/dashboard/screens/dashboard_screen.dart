@@ -1,8 +1,8 @@
-// lib/features/dashboard/screens/dashboard_screen.dart
 import 'package:flutter/material.dart';
 import 'package:value_flow/features/home/screens/home_screen.dart';
 import 'package:value_flow/features/favorites/screens/favorites_screen.dart';
-import 'package:value_flow/features/converter/screens/converter_screen.dart'; // YENİ IMPORT
+import 'package:value_flow/features/converter/screens/converter_screen.dart';
+import 'package:value_flow/features/alerts/screens/alerts_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -14,12 +14,12 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(),
-    const FavoritesScreen(),
-    const ConverterScreen(), // ESKİ Text() YERİNE ARTIK BU EKRAN GÖSTERİLİYOR
-    const Text('Alerts Screen', style: TextStyle(color: Colors.white)),
-    const Text('Settings Screen', style: TextStyle(color: Colors.white)),
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    FavoritesScreen(),
+    ConverterScreen(),
+    AlertsScreen(),
+    Text('Settings Screen', style: TextStyle(color: Colors.white)),
   ];
 
   void _onItemTapped(int index) {
