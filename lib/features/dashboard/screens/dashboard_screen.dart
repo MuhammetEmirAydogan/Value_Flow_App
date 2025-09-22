@@ -3,6 +3,7 @@ import 'package:value_flow/features/home/screens/home_screen.dart';
 import 'package:value_flow/features/favorites/screens/favorites_screen.dart';
 import 'package:value_flow/features/converter/screens/converter_screen.dart';
 import 'package:value_flow/features/alerts/screens/alerts_screen.dart';
+import 'package:value_flow/features/settings/screens/settings_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -19,7 +20,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     FavoritesScreen(),
     ConverterScreen(),
     AlertsScreen(),
-    Text('Settings Screen', style: TextStyle(color: Colors.white)),
+    SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
