@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:value_flow/app/theme/app_theme.dart';
 import 'package:value_flow/features/auth/screens/login_screen.dart';
 import 'package:value_flow/features/dashboard/screens/dashboard_screen.dart';
+import 'package:value_flow/providers/alerts_provider.dart';
 import 'package:value_flow/providers/auth_provider.dart';
 import 'package:value_flow/providers/assets_provider.dart';
 import 'package:value_flow/providers/theme_provider.dart';
@@ -16,6 +17,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AssetsProvider()),
         ChangeNotifierProvider(create: (_) => ConverterProvider()),
+        ChangeNotifierProvider(create: (_) => AlertsProvider()),
       ],
       child: const MyApp(),
     ),

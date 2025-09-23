@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class AlertListItem extends StatelessWidget {
   final String assetName;
   final String condition;
+  final VoidCallback onDelete;
 
   const AlertListItem({
     super.key,
     required this.assetName,
     required this.condition,
+    required this.onDelete,
   });
 
   @override
@@ -15,7 +17,7 @@ class AlertListItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: const Color(0xFF2D3748),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Row(
@@ -28,13 +30,13 @@ class AlertListItem extends StatelessWidget {
               children: [
                 Text(assetName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                Text(condition, style: TextStyle(color: Colors.grey[400])),
+                Text(condition, style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
               ],
             ),
           ),
           IconButton(
             icon: Icon(Icons.delete_outline, color: Colors.red[300]),
-            onPressed: () {},
+            onPressed: onDelete,
           ),
         ],
       ),
