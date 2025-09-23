@@ -1,7 +1,7 @@
-// lib/features/auth/screens/login_screen.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:value_flow/features/auth/screens/register_screen.dart';
-import 'package:value_flow/features/dashboard/screens/dashboard_screen.dart';
+import 'package:value_flow/providers/auth_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,7 +16,6 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Logo veya Uygulama Adı
               const Text(
                 'ValueFlow',
                 textAlign: TextAlign.center,
@@ -27,8 +26,6 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 48.0),
-
-              // E-posta Giriş Alanı
               const TextField(
                 decoration: InputDecoration(
                   hintText: 'Email',
@@ -36,8 +33,6 @@ class LoginScreen extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16.0),
-
-              // Şifre Giriş Alanı
               const TextField(
                 decoration: InputDecoration(
                   hintText: 'Password',
@@ -45,32 +40,19 @@ class LoginScreen extends StatelessWidget {
                 obscureText: true,
               ),
               const SizedBox(height: 24.0),
-
-              // Giriş Butonu
               ElevatedButton(
                 onPressed: () {
-                  // Giriş başarılı olduğunda bu kod çalışacak.
-                  // pushReplacement ile giriş ekranını yığından kaldırıp
-                  // yerine ana ekranı koyuyoruz. Böylece kullanıcı geri tuşuyla
-                  // giriş ekranına dönemiyor.
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const DashboardScreen(),
-                    ),
-                  );
+                  Provider.of<AuthProvider>(context, listen: false).login();
                 },
                 child: const Text('Login'),
               ),
               const SizedBox(height: 16.0),
-
-              // Kayıt Ol'a Yönlendirme
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      // Navigator.push ile yeni bir ekran açıyoruz
                       Navigator.push(
                         context,
                         MaterialPageRoute(

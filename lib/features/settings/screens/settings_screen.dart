@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:value_flow/providers/auth_provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -94,6 +96,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red[400],
+                ),
+                onPressed: () {
+                  Provider.of<AuthProvider>(context, listen: false).logout();
+                },
+                child: const Text('Logout'),
+              ),
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
