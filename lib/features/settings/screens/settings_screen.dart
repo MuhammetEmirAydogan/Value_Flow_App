@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:value_flow/providers/auth_provider.dart';
+import 'package:value_flow/providers/theme_provider.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool isDarkModeEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +28,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.white70,
               ),
             ),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D3748),
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Theme', style: TextStyle(fontSize: 16)),
-                  Switch(
-                    value: isDarkModeEnabled,
-                    onChanged: (value) {
-                      setState(() {
-                        isDarkModeEnabled = value;
-                      });
+                  Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, child) {
+                      return Switch(
+                        value: themeProvider.themeMode == ThemeMode.dark,
+                        onChanged: (value) {
+                          themeProvider.toggleTheme();
+                        },
+                        activeColor: Theme.of(context).primaryColor,
+                      );
                     },
-                    activeColor: Theme.of(context).primaryColor,
                   ),
                 ],
               ),
@@ -66,14 +61,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.white70,
               ),
             ),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D3748),
+                color: Theme.of(context).inputDecorationTheme.fillColor,
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: Column(
@@ -86,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 8),
                   Text(
                     'Your beautiful and simple asset tracker.',
-                    style: TextStyle(color: Colors.grey[400]),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                   const SizedBox(height: 16),
                   Text(

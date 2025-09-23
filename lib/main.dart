@@ -4,11 +4,15 @@ import 'package:value_flow/app/theme/app_theme.dart';
 import 'package:value_flow/features/auth/screens/login_screen.dart';
 import 'package:value_flow/features/dashboard/screens/dashboard_screen.dart';
 import 'package:value_flow/providers/auth_provider.dart';
+import 'package:value_flow/providers/theme_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -19,15 +23,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ValueFlow',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
-      home: Consumer<AuthProvider>(
-        builder: (context, auth, child) {
-          return auth.isLoggedIn ? const DashboardScreen() : const LoginScreen();
-        },
-      ),
+    return Consumer2<AuthProvider, ThemeProvider>(
+      builder: (context, auth, theme, child) {
+        return MaterialApp(
+          title: 'ValueFlow',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: theme.themeMode,
+          home: auth.isLoggedIn ? const DashboardScreen() : const LoginScreen(),
+        );
+      },
     );
   }
 }
