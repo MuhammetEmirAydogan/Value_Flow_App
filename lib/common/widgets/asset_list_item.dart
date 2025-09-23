@@ -7,17 +7,17 @@ class AssetListItem extends StatelessWidget {
   final String price;
   final double changePercentage;
   final bool isFavorite;
-  final VoidCallback? onFavoriteToggle; // YENİ PARAMETRE
+  final VoidCallback? onFavoriteToggle;
 
   const AssetListItem({
     super.key,
-    this.iconUrl = '',
+    required this.iconUrl,
     required this.name,
     required this.symbol,
     required this.price,
     required this.changePercentage,
     this.isFavorite = false,
-    this.onFavoriteToggle, // YENİ PARAMETRE
+    this.onFavoriteToggle,
   });
 
   @override
@@ -28,25 +28,28 @@ class AssetListItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).inputDecorationTheme.fillColor, // Tema rengine göre güncelledik
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 20,
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.transparent,
+            backgroundImage: NetworkImage(iconUrl),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text(symbol, style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)), // Tema rengine göre güncelledik
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
+                const SizedBox(height: 4),
+                Text(symbol.toUpperCase(), style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -64,14 +67,12 @@ class AssetListItem extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(width: 16),
-          // Favori ikonunu IconButton ile sarmalıyoruz
-          IconButton( // YENİ
+          IconButton(
             icon: Icon(
               isFavorite ? Icons.star : Icons.star_border,
-              color: isFavorite ? Colors.yellow[600] : Theme.of(context).iconTheme.color, // Tema rengine göre güncelledik
+              color: isFavorite ? Colors.yellow[600] : Theme.of(context).iconTheme.color,
             ),
-            onPressed: onFavoriteToggle, // İkona basıldığında callback tetiklenecek
+            onPressed: onFavoriteToggle,
           ),
         ],
       ),

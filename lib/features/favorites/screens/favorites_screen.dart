@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:value_flow/common/widgets/asset_list_item.dart';
-import 'package:value_flow/providers/assets_provider.dart'; // YENİ IMPORT
+import 'package:value_flow/features/asset_detail/screens/asset_detail_screen.dart';
+import 'package:value_flow/providers/assets_provider.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // AssetsProvider'ı dinliyoruz, favori listesi değiştiğinde bu widget yeniden çizilecek
     final assetsProvider = Provider.of<AssetsProvider>(context);
     final favoriteAssets = assetsProvider.favoriteAssets;
 
@@ -27,7 +27,7 @@ class FavoritesScreen extends StatelessWidget {
         child: favoriteAssets.isEmpty
             ? Center(
           child: Text(
-            'No favorite assets yet. Add some from the Home screen!',
+            'No favorite assets yet. Add some from the list!',
             textAlign: TextAlign.center,
             style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
           ),
@@ -36,19 +36,23 @@ class FavoritesScreen extends StatelessWidget {
           itemCount: favoriteAssets.length,
           itemBuilder: (context, index) {
             final asset = favoriteAssets[index];
-            return GestureDetector( // Tıklanabilirlik için sardık
+            return GestureDetector(
               onTap: () {
-                // TODO: Varlık detay ekranına git
-                print('${asset.name} detayına git');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AssetDetailScreen(asset: asset),
+                  ),
+                );
               },
               child: AssetListItem(
+                iconUrl: asset.image,
                 name: asset.name,
                 symbol: asset.symbol,
-                price: '\$${asset.price.toStringAsFixed(2)}',
-                changePercentage: asset.changePercentage,
+                price: '\$${asset.currentPrice.toStringAsFixed(2)}',
+                changePercentage: asset.priceChangePercentage24h,
                 isFavorite: assetsProvider.isFavorite(asset.id),
-                // Favori butonuna tıklama işlevi ekliyoruz
-                onFavoriteToggle: () { // Bu metot AssetListItem'e eklenecek
+                onFavoriteToggle: () {
                   assetsProvider.toggleFavorite(asset.id);
                 },
               ),

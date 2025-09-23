@@ -52,7 +52,7 @@ class ConverterProvider with ChangeNotifier {
 
   void _calculateResult() {
     if (_fromAsset != null && _toAsset != null) {
-      _result = (_amount * _fromAsset!.price) / _toAsset!.price;
+      _result = (_amount * _fromAsset!.currentPrice) / _toAsset!.currentPrice;
     } else {
       _result = 0.0;
     }

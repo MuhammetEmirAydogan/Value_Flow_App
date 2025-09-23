@@ -10,7 +10,7 @@ class AssetDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color changeColor = asset.changePercentage >= 0 ? Colors.green : Colors.red;
+    final Color changeColor = asset.priceChangePercentage24h >= 0 ? Colors.green : Colors.red;
 
     return Scaffold(
       appBar: AppBar(
@@ -22,12 +22,12 @@ class AssetDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '\$${asset.price.toStringAsFixed(2)}',
+              '\$${asset.currentPrice.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '${asset.changePercentage.toStringAsFixed(2)}%',
+              '${asset.priceChangePercentage24h.toStringAsFixed(2)}%',
               style: TextStyle(fontSize: 20, color: changeColor, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 24),
@@ -47,7 +47,7 @@ class AssetDetailScreen extends StatelessWidget {
                   const Text('About', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 12),
                   Text(
-                    '${asset.name} price in the global market, reflecting its status as a primary safe-haven asset.',
+                    '${asset.name} price in the global market. Data provided by CoinGecko.',
                     style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                 ],

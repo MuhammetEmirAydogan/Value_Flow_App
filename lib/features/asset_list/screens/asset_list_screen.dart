@@ -39,10 +39,11 @@ class AssetListScreen extends StatelessWidget {
               child: Consumer<AssetsProvider>(
                 builder: (context, assetsProvider, child) {
                   return AssetListItem(
+                    iconUrl: asset.image,
                     name: asset.name,
                     symbol: asset.symbol,
-                    price: '\$${asset.price.toStringAsFixed(2)}',
-                    changePercentage: asset.changePercentage,
+                    price: '\$${asset.currentPrice.toStringAsFixed(2)}',
+                    changePercentage: asset.priceChangePercentage24h,
                     isFavorite: assetsProvider.isFavorite(asset.id),
                     onFavoriteToggle: () {
                       assetsProvider.toggleFavorite(asset.id);

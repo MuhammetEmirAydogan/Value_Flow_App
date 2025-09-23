@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:value_flow/app/theme/app_theme.dart';
 import 'package:value_flow/features/auth/screens/login_screen.dart';
@@ -9,7 +10,8 @@ import 'package:value_flow/providers/assets_provider.dart';
 import 'package:value_flow/providers/theme_provider.dart';
 import 'package:value_flow/providers/converter_provider.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [
