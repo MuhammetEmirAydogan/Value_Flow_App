@@ -4,8 +4,9 @@ import 'package:value_flow/app/theme/app_theme.dart';
 import 'package:value_flow/features/auth/screens/login_screen.dart';
 import 'package:value_flow/features/dashboard/screens/dashboard_screen.dart';
 import 'package:value_flow/providers/auth_provider.dart';
-import 'package:value_flow/providers/assets_provider.dart'; // YENİ IMPORT
+import 'package:value_flow/providers/assets_provider.dart';
 import 'package:value_flow/providers/theme_provider.dart';
+import 'package:value_flow/providers/converter_provider.dart';
 
 void main() {
   runApp(
@@ -13,7 +14,8 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AssetsProvider()), // YENİ PROVIDER EKLEDİK
+        ChangeNotifierProvider(create: (_) => AssetsProvider()),
+        ChangeNotifierProvider(create: (_) => ConverterProvider()),
       ],
       child: const MyApp(),
     ),

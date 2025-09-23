@@ -1,18 +1,24 @@
-// lib/features/converter/widgets/conversion_card.dart
 import 'package:flutter/material.dart';
+import 'package:value_flow/models/asset.dart';
 
 class ConversionCard extends StatelessWidget {
   final String label;
-  final String selectedValue;
+  final Asset selectedAsset;
   final String amount;
+  final List<Asset> allAssets;
   final bool isInput;
+  final Function(Asset) onAssetChanged;
+  final Function(String)? onAmountChanged;
 
   const ConversionCard({
     super.key,
     required this.label,
-    required this.selectedValue,
+    required this.selectedAsset,
     required this.amount,
+    required this.allAssets,
     this.isInput = false,
+    required this.onAssetChanged,
+    this.onAmountChanged,
   });
 
   @override
@@ -20,57 +26,58 @@ class ConversionCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: const Color(0xFF2D3748),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.grey[400])),
+          Text(label, style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color)),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Varlık Seçim Alanı
               Expanded(
-                flex: 3, // Yazı alanı daha geniş olabileceği için flex oranını artırdık
+                flex: 3,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1A202C),
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // <-- DEĞİŞİKLİK BURADA
-                      // Text widget'ını Expanded ile sardık, böylece uzun yazılar sığıyor.
-                      Expanded(
-                        child: Text(
-                          selectedValue,
-                          style: const TextStyle(fontSize: 16),
-                          overflow: TextOverflow.ellipsis, // Sığmazsa sonuna ... koy
-                        ),
-                      ),
-                      const Icon(Icons.keyboard_arrow_down),
-                    ],
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Asset>(
+                      value: selectedAsset,
+                      isExpanded: true,
+                      items: allAssets.map((Asset asset) {
+                        return DropdownMenuItem<Asset>(
+                          value: asset,
+                          child: Text(asset.name, overflow: TextOverflow.ellipsis),
+                        );
+                      }).toList(),
+                      onChanged: (newAsset) {
+                        if (newAsset != null) {
+                          onAssetChanged(newAsset);
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),
               const SizedBox(width: 16),
-              // Miktar Alanı
               Expanded(
-                flex: 2, // <-- VE BURADA (Buranın flex oranını düşürdük)
+                flex: 2,
                 child: isInput
-                    ? const TextField(
+                    ? TextFormField(
+                  initialValue: amount,
                   textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '1',
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
                   ),
+                  onChanged: onAmountChanged,
                 )
                     : Text(
                   amount,
