@@ -16,32 +16,54 @@ class AssetDetailScreen extends StatefulWidget {
 
 class _AssetDetailScreenState extends State<AssetDetailScreen> {
   final ApiService _apiService = ApiService();
-  late Future<List<FlSpot>> _chartDataFuture;
 
-  int _selectedTimeframeIndex = 1; // Başlangıçta 7D seçili olsun (index 1)
+  List<FlSpot>? _chartSpots;
+  bool _isChartLoading = true;
+
+  int _selectedTimeframeIndex = 1; // Başlangıçta 7D seçili
   final List<String> _timeframeLabels = ['1D', '7D', '1M', '3M', '1Y', 'ALL'];
-  final List<int> _timeframeDays = [1, 7, 30, 90, 365, 4000]; // ALL için ~10 yıl
+  final List<int> _timeframeDays = [1, 7, 30, 90, 365, 4000];
 
   @override
   void initState() {
     super.initState();
-    _updateChartData();
+    _fetchChartData();
   }
 
-  void _updateChartData() {
+  Future<void> _fetchChartData() async {
     setState(() {
-      _chartDataFuture = _apiService.fetchChartData(
+      _isChartLoading = true;
+    });
+
+    try {
+      final spots = await _apiService.fetchChartData(
         widget.asset.id,
         _timeframeDays[_selectedTimeframeIndex],
       );
-    });
+      if (mounted) {
+        setState(() {
+          _chartSpots = spots;
+          _isChartLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isChartLoading = false;
+        });
+        // İsteğe bağlı: Hata durumunu kullanıcıya göstermek için bir Snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load chart data: $e')),
+        );
+      }
+    }
   }
 
   void _onTimeframeSelected(int index) {
     setState(() {
       _selectedTimeframeIndex = index;
     });
-    _updateChartData();
+    _fetchChartData();
   }
 
   @override
@@ -68,18 +90,17 @@ class _AssetDetailScreenState extends State<AssetDetailScreen> {
             ),
             const SizedBox(height: 24),
 
-            FutureBuilder<List<FlSpot>>(
-              future: _chartDataFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(height: 200, child: Center(child: CircularProgressIndicator()));
-                } else if (snapshot.hasError) {
-                  return SizedBox(height: 200, child: Center(child: Text('Failed to load chart data', style: TextStyle(color: Colors.red[300]))));
-                } else if (snapshot.hasData) {
-                  return PriceChart(spots: snapshot.data!);
-                }
-                return const SizedBox(height: 200);
-              },
+            SizedBox(
+              height: 200,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                child: _isChartLoading
+                    ? Center(key: UniqueKey(), child: const CircularProgressIndicator())
+                    : PriceChart(
+                  key: ValueKey(_selectedTimeframeIndex),
+                  spots: _chartSpots ?? [],
+                ),
+              ),
             ),
 
             const SizedBox(height: 24),
