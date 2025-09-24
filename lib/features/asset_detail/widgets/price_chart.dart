@@ -2,7 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class PriceChart extends StatelessWidget {
-  const PriceChart({super.key});
+  final List<FlSpot> spots;
+
+  const PriceChart({super.key, required this.spots});
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +17,7 @@ class PriceChart extends StatelessWidget {
           borderData: FlBorderData(show: false),
           lineBarsData: [
             LineChartBarData(
-              spots: const [
-                FlSpot(0, 3),
-                FlSpot(1, 1),
-                FlSpot(2, 4),
-                FlSpot(3, 2),
-                FlSpot(4, 5),
-                FlSpot(5, 3),
-                FlSpot(6, 4),
-              ],
+              spots: spots,
               isCurved: true,
               color: Theme.of(context).primaryColor,
               barWidth: 4,
@@ -33,8 +27,8 @@ class PriceChart extends StatelessWidget {
                 show: true,
                 gradient: LinearGradient(
                   colors: [
-                    Theme.of(context).primaryColor.withOpacity(0.3),
-                    Theme.of(context).primaryColor.withOpacity(0.0),
+                    Theme.of(context).primaryColor.withAlpha(77),
+                    Theme.of(context).primaryColor.withAlpha(0),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

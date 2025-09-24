@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
 
-class TimeframeSelector extends StatefulWidget {
-  const TimeframeSelector({super.key});
+class TimeframeSelector extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onTimeframeSelected;
+  final List<String> timeframes;
 
-  @override
-  State<TimeframeSelector> createState() => _TimeframeSelectorState();
-}
-
-class _TimeframeSelectorState extends State<TimeframeSelector> {
-  int _selectedIndex = 0;
-  final List<String> _timeframes = ['1D', '7D', '1M', '3M', '1Y', 'ALL'];
+  const TimeframeSelector({
+    super.key,
+    required this.selectedIndex,
+    required this.onTimeframeSelected,
+    required this.timeframes,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(_timeframes.length, (index) {
-          final bool isSelected = _selectedIndex == index;
+        children: List.generate(timeframes.length, (index) {
+          final bool isSelected = selectedIndex == index;
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
+              onPressed: () => onTimeframeSelected(index),
               style: ElevatedButton.styleFrom(
                 backgroundColor: isSelected
                     ? Theme.of(context).primaryColor
@@ -37,7 +34,7 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: Text(_timeframes[index]),
+              child: Text(timeframes[index]),
             ),
           );
         }),

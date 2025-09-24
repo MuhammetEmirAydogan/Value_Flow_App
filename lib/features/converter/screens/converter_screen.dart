@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:value_flow/features/converter/widgets/conversion_card.dart';
-import 'package:value_flow/models/asset.dart';
 import 'package:value_flow/providers/assets_provider.dart';
 import 'package:value_flow/providers/converter_provider.dart';
 

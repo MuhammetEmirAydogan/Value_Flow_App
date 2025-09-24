@@ -17,12 +17,12 @@ class Asset {
 
   factory Asset.fromJson(Map<String, dynamic> json) {
     return Asset(
-      id: json['id'] as String,
-      symbol: json['symbol'] as String,
+      id: (json['id'] ?? json['symbol']) as String,
+      symbol: (json['symbol'] as String).toLowerCase(),
       name: json['name'] as String,
-      image: json['image'] as String,
-      currentPrice: (json['current_price'] as num).toDouble(),
-      priceChangePercentage24h: (json['price_change_percentage_24h'] as num? ?? 0.0).toDouble(),
+      image: json['image'] as String? ?? '',
+      currentPrice: ((json['current_price'] ?? json['price']) as num).toDouble(),
+      priceChangePercentage24h: ((json['price_change_percentage_24h'] ?? json['changesPercentage']) as num? ?? 0.0).toDouble(),
     );
   }
 }

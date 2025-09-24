@@ -19,18 +19,40 @@ class HomeScreen extends StatelessWidget {
               if (assetsProvider.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
-
               if (assetsProvider.errorMessage != null) {
-                return Center(
-                  child: Text('Error: ${assetsProvider.errorMessage}'),
-                );
+                return Center(child: Text(assetsProvider.errorMessage!));
               }
+
+              final preciousMetalIds = ['pax-gold', 'tether-gold'];
+              final stablecoinIds = ['tether', 'usd-coin', 'eurc'];
+              final excludedIds = [...preciousMetalIds, ...stablecoinIds];
 
               final List<Map<String, dynamic>> categories = [
                 {
+                  'title': 'Precious Metals',
+                  'icon': Icons.shield_outlined,
+                  'assets': assetsProvider.allAssets
+                      .where((asset) => preciousMetalIds.contains(asset.id))
+                      .toList(),
+                },
+                {
+                  'title': 'Currencies',
+                  'icon': Icons.monetization_on_outlined,
+                  'assets': assetsProvider.allAssets
+                      .where((asset) => stablecoinIds.contains(asset.id))
+                      .toList(),
+                },
+                {
                   'title': 'Cryptocurrencies',
                   'icon': Icons.donut_small_outlined,
-                  'assets': assetsProvider.allAssets, // <-- DEĞİŞİKLİK BURADA: .where() filtresi kaldırıldı.
+                  'assets': assetsProvider.allAssets
+                      .where((asset) => !excludedIds.contains(asset.id))
+                      .toList(),
+                },
+                {
+                  'title': 'Energy & Commodities',
+                  'icon': Icons.local_fire_department_outlined,
+                  'assets': <Asset>[],
                 },
               ];
 
@@ -51,6 +73,8 @@ class HomeScreen extends StatelessWidget {
                         final category = categories[index];
                         return GestureDetector(
                           onTap: () {
+                            if ((category['assets'] as List<Asset>).isEmpty) return;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
