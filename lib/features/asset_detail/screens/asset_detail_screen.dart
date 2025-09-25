@@ -20,7 +20,7 @@ class _AssetDetailScreenState extends State<AssetDetailScreen> {
   List<FlSpot>? _chartSpots;
   bool _isChartLoading = true;
 
-  int _selectedTimeframeIndex = 1; // Başlangıçta 7D seçili
+  int _selectedTimeframeIndex = 1;
   final List<String> _timeframeLabels = ['1D', '7D', '1M', '3M', '1Y', 'ALL'];
   final List<int> _timeframeDays = [1, 7, 30, 90, 365, 4000];
 
@@ -51,7 +51,6 @@ class _AssetDetailScreenState extends State<AssetDetailScreen> {
         setState(() {
           _isChartLoading = false;
         });
-        // İsteğe bağlı: Hata durumunu kullanıcıya göstermek için bir Snackbar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to load chart data: $e')),
         );

@@ -30,28 +30,28 @@ class HomeScreen extends StatelessWidget {
               final List<Map<String, dynamic>> categories = [
                 {
                   'title': 'Precious Metals',
-                  'icon': Icons.shield_outlined,
+                  'iconPath': 'assets/icons/precious_metals.svg',
                   'assets': assetsProvider.allAssets
                       .where((asset) => preciousMetalIds.contains(asset.id))
                       .toList(),
                 },
                 {
                   'title': 'Currencies',
-                  'icon': Icons.monetization_on_outlined,
+                  'iconPath': 'assets/icons/currency.svg',
                   'assets': assetsProvider.allAssets
                       .where((asset) => stablecoinIds.contains(asset.id))
                       .toList(),
                 },
                 {
                   'title': 'Cryptocurrencies',
-                  'icon': Icons.donut_small_outlined,
+                  'iconPath': 'assets/icons/crypto.svg',
                   'assets': assetsProvider.allAssets
                       .where((asset) => !excludedIds.contains(asset.id))
                       .toList(),
                 },
                 {
                   'title': 'Energy & Commodities',
-                  'icon': Icons.local_fire_department_outlined,
+                  'iconPath': 'assets/icons/energy.svg',
                   'assets': <Asset>[],
                 },
               ];
@@ -86,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                             );
                           },
                           child: CategoryCard(
-                            icon: category['icon'],
+                            iconPath: category['iconPath'],
                             title: category['title'],
                             subtitle: '${(category['assets'] as List<Asset>).length} assets',
                           ),
